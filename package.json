@@ -4,9 +4,8 @@
   "description": "Portafolio v3",
   "main": "index.js",
   "scripts": {
-    "babel": "babel src/app.js --out-file salida.js --presets=@babel/preset-env",
-    "dev": "webpack serve",
-    "build": "webpack build"
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "Jack Sari <janasarii@gmail.com>",
   "license": "ISC",
@@ -29,6 +28,7 @@
     "webpack-dev-server": "^4.3.0"
   },
   "dependencies": {
-    "webpack": "^5.62.1"
+    "webpack": "^5.62.1",
+    "webpack-merge": "^5.8.0"
   }
 }

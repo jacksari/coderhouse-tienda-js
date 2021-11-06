@@ -43,8 +43,7 @@ module.exports = {
         static: path.join(__dirname, 'public'),
         compress: true,
         port: 9000,
-     },
-    mode: "development",
+    },
     watch: true,
     module: {
         rules: [

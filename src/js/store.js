@@ -463,22 +463,22 @@ export const products = [
 export const links = [
   {
     link: 'Home',
-    url: '/',
+    url: 'index.html',
     active: false
   },
   {
     link: 'Products',
-    url: '/products.html',
+    url: 'products.html',
     active: false
   },
   {
     link: 'Single Product',
-    url: '/single-product.html',
+    url: 'single-product.html',
     active: false
   },
   {
     link: 'Contact',
-    url: '/contact.html',
+    url: 'contact.html',
     active: false
   },
 ]

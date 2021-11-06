@@ -1,7 +1,9 @@
-import {links, products} from "./store";
+import { products} from "./store";
+import {loadSections} from "./sections";
 
 // Obtener productos
 const getProducts = (feat) => {
+    console.log('cargar productos', products)
     if (feat) {
         const arrayProducts = products.filter(product => product.fields.featured === true);
         renderProducts(arrayProducts);
@@ -51,25 +53,32 @@ const getProductById = (id) => {
     return products.find(product => product.id === id);
 }
 
-// cargar pantallas
+// primera carga
 window.addEventListener("load", function(event) {
     console.log("'Todos los recursos terminaron de cargar!");
-    // Cargar Nav
-    getNav();
+    // Cargar secciones
+    loadSections();
     // Buscar el url del proyecto
-    const url = window.location.href.replace('http://localhost:9000', '');
-    if(url === '/'){
+    searchUrl();
+
+});
+
+const searchUrl = () => {
+    const url = window.location.href.split('/')
+    const path = url[window.location.href.split('/').length - 1];
+
+    if(path === '/' || path === 'index.html'){
         // En el caso estemos en la url principal llamará a los productos
         getProducts(true);
-    } else if(url === '/products.html'){
+    } else if(path === 'products.html'){
         getProducts(false)
     } else {
         // Caso contrario hará un buscado por el id del producto que es un parámetro
         const idProduct = window.location.href.split('product=')[window.location.href.split.length - 1]
         const product = getProductById(idProduct);
-        console.log('product', product)
+        console.log(product)
     }
-});
+}
 
 
 // Agregar producto al carrito
@@ -102,44 +111,3 @@ function filterSearch () {
 
 }
 
-const getNav = () => {
-    const nav = document.getElementById("navbar");
-    const url = window.location.href.replace('http://localhost:9000', '');
-    console.log(url)
-    // Activar el link dependiendo de la ruta url
-    let linksUpdate = links.map(link => {
-        if (link.url === url) {
-            link.active = true
-            return link;
-        } else {
-            return link;
-        }
-    })
-    let htmlLinks = '';
-    // Cargar links con la clase active
-    linksUpdate.forEach(link => {
-        htmlLinks += `
-            <a class="nav-link ${link.active ? 'nav-active' : ''}" aria-current="page" href="${link.url}">${link.link}</a>
-        `;
-    })
-    nav.innerHTML = `
-        <nav class="navbar navbar-expand-lg bg-white fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="https://dojiw2m9tvv09.cloudfront.net/66454/1/1685aa5ec87a9b85d05ab5d870dc463a5e61fa69.png?1634711553716"
-                     alt="Logo"
-                     class="logo"
-                >
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
-                    ${htmlLinks}
-                </div>
-            </div>
-        </div>
-    </nav>
-    `;
-}
