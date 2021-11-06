@@ -50,7 +50,9 @@ const getNav = () => {
                     ${htmlLinks}
                 </div>
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
                     <ul class="dropdown-menu" id="cart-products">
             
                     </ul>
@@ -64,7 +66,7 @@ const getNav = () => {
 // Cargar footer
 const getFooter = () => {
     const footer = document.getElementById('footer');
-    let html;
+    let html = '';
     html += `
         <div class="section-center">
         <div class="grid-footer">
