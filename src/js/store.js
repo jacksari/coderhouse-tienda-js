@@ -483,3 +483,4 @@ export const links = [
   },
 ]
 
+export const cart = JSON.parse(localStorage.getItem('cart'));

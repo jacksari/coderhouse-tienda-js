@@ -1,9 +1,13 @@
-import { products} from "./store";
+import {cart, products} from "./store";
 import {loadSections} from "./sections";
+
+
 
 // Obtener productos
 const getProducts = (feat) => {
     console.log('cargar productos', products)
+    // Validar featured (true para productos del home)
+    // sin valor para los productos totales
     if (feat) {
         const arrayProducts = products.filter(product => product.fields.featured === true);
         renderProducts(arrayProducts);
@@ -12,23 +16,35 @@ const getProducts = (feat) => {
     }
 }
 
+// renderiza todos lor productos
 const renderProducts = (array = []) => {
     const productos = document.getElementById("products-list");
     let html = '';
     array.forEach(product => {
-        const { name, image, colors, company, price, featured } = product.fields;
-        const img = image[0].url;
-        html += `
+        html += getProductHtml(product);
+    });
+    productos.innerHTML = html;
+}
+
+// Devolver html de un producto
+const getProductHtml = product => {
+    const { name, image, colors, company, price, featured } = product.fields;
+    const img = image[0].url;
+    return `
             <div class="col-sm-6 col-lg-4">
-                <a href="/single-product.html?product=${product.id}" class="d-block text-center mb-4">
+                <div class="d-block text-center mb-4">
                     <div class="product-list pb-3">
-                        <div class="product-image position-relative">
-                            <span class="sale">Sale</span>
-                            <img src="${img}" alt="products" class="img-fluid product-image-first">
-                            <img src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/3aaa3d4c-33d5-4df8-8dc2-17fb1a0f302a/15.jpg" alt="products" class="img-fluid product-image-secondary">
-                        </div>
+                        <a href="/single-product.html?product=${product.id}">
+                            <div class="product-image position-relative">
+                                <span class="sale">Sale</span>
+                                <img src="${img}" alt="products" class="img-fluid product-image-first">
+                                <img src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/3aaa3d4c-33d5-4df8-8dc2-17fb1a0f302a/15.jpg" alt="products" class="img-fluid product-image-secondary">
+                            </div>
+                        </a>
                         <div class="product-name pt-3">
-                            <h3 class="text-capitalize">${ name }</h3>
+                            <a href="/single-product.html?product=${product.id}">
+                                <h3 class="text-capitalize">${name}</h3>
+                            </a>
                             <p class="mb-0 amount">$ ${price} <del>$580.00</del></p>
                             <div class="py-1">
                                 <i class="fas fa-star"></i>
@@ -37,15 +53,12 @@ const renderProducts = (array = []) => {
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <button type="button" class="btn btn-primary mt-1">ADD TO CARD</button>
+                            <button type="button" class="btn btn-primary mt-1" onclick="addProductCart('${product.id}')">ADD TO CARD</button>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
-        `
-    });
-    productos.innerHTML = html;
-
+        `;
 }
 
 // Obtener producto por id
@@ -60,14 +73,16 @@ window.addEventListener("load", function(event) {
     loadSections();
     // Buscar el url del proyecto
     searchUrl();
-
+    // Cargar storage
+    cargarStorage();
 });
 
+// Buscar url y dependiendo de eso elegir la funcionalidad
 const searchUrl = () => {
     const url = window.location.href.split('/')
     const path = url[window.location.href.split('/').length - 1];
 
-    if(path === '/' || path === 'index.html'){
+    if(path === '' || path === 'index.html'){
         // En el caso estemos en la url principal llamará a los productos
         getProducts(true);
     } else if(path === 'products.html'){
@@ -80,16 +95,6 @@ const searchUrl = () => {
     }
 }
 
-
-// Agregar producto al carrito
-function addProductCart (id) {
-
-}
-
-// Eliminar producto del carrito
-function removeProductCart (id) {
-
-}
 
 // Cambiar de página a la hora de listar productos
 function updatePageProducts(id) {
@@ -111,3 +116,21 @@ function filterSearch () {
 
 }
 
+
+let btnProducts = document.querySelectorAll(".btn-product")
+
+
+window.addProductCart = function addProductCart (idProduct) {
+    console.log('click', getProductById(idProduct))
+    cart.push(getProductById(idProduct))
+    localStorage.setItem('cart', JSON.stringify(cart))
+}
+
+// Eliminar producto del carrito
+function removeProductCart (id) {
+    return  cart.filter(cart => cart.id !== id);
+}
+
+const cargarStorage = () => {
+    console.log(cart)
+}
