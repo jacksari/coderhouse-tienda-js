@@ -1,7 +1,5 @@
 import {cart, products} from "./store";
-import {loadSections} from "./sections";
-
-
+import {loadCartHtml, loadSections} from "./sections";
 
 // Obtener productos
 const getProducts = (feat) => {
@@ -73,8 +71,8 @@ window.addEventListener("load", function(event) {
     loadSections();
     // Buscar el url del proyecto
     searchUrl();
-    // Cargar storage
-    cargarStorage();
+    // Cargar productos al html del cart
+    loadCartHtml(cart)
 });
 
 // Buscar url y dependiendo de eso elegir la funcionalidad
@@ -95,35 +93,62 @@ const searchUrl = () => {
     }
 }
 
-
 // Cambiar de página a la hora de listar productos
 function updatePageProducts(id) {
-
 }
 
 // Filtrar productos por precio
 function filterPrice () {
-
 }
 
 // Filtrar productos por categoria
 function filterCategory () {
-
 }
 
 // Filtrar por nombre
 function filterSearch () {
-
 }
 
-
-let btnProducts = document.querySelectorAll(".btn-product")
-
-
 window.addProductCart = function addProductCart (idProduct) {
-    console.log('click', getProductById(idProduct))
-    cart.push(getProductById(idProduct))
-    localStorage.setItem('cart', JSON.stringify(cart))
+    let existe = false;
+    const productsCart = cart.map(product => {
+      if(product.id === idProduct){
+          existe = true;
+          product.cantidad += 1;
+          return product;
+      }  else {
+          return product;
+      }
+    });
+    if(!existe){
+        const product = getProductById(idProduct);
+        product.cantidad = 1;
+        productsCart.push(getProductById(idProduct))
+    }
+    storageRefresh(productsCart)
+}
+window.addProductAmountCart = function addProductAmountCart (idProduct) {
+    const products = cart.map(product => {
+        if(product.id === idProduct){
+            product.cantidad +=1;
+            return product
+        } else {
+            return product
+        }
+    });
+    storageRefresh(products);
+}
+
+window.removeProductAmountCart = function removeProductAmountCart (idProduct) {
+    const products = cart.map(product => {
+        if(product.id === idProduct){
+            product.cantidad -=1;
+            return product
+        } else {
+            return product
+        }
+    }).filter(product => product.cantidad !== 0)
+    storageRefresh(products)
 }
 
 // Eliminar producto del carrito
@@ -131,6 +156,8 @@ function removeProductCart (id) {
     return  cart.filter(cart => cart.id !== id);
 }
 
-const cargarStorage = () => {
-    console.log(cart)
+const storageRefresh = (products) => {
+    localStorage.removeItem('cart')
+    loadCartHtml(products)
+    localStorage.setItem('cart', JSON.stringify(products))
 }
