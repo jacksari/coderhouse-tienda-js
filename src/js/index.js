@@ -109,10 +109,12 @@ function filterCategory () {
 function filterSearch () {
 }
 
+// Agregar producto al carrito
 window.addProductCart = function addProductCart (idProduct) {
     let existe = false;
-    const productsCart = cart.map(product => {
+    const productsCart = getLocalStorageProducts().map(product => {
       if(product.id === idProduct){
+          console.log('existe')
           existe = true;
           product.cantidad += 1;
           return product;
@@ -120,15 +122,19 @@ window.addProductCart = function addProductCart (idProduct) {
           return product;
       }
     });
+    console.log('array', productsCart)
     if(!existe){
         const product = getProductById(idProduct);
         product.cantidad = 1;
         productsCart.push(getProductById(idProduct))
     }
+    console.log('ui', productsCart)
     storageRefresh(productsCart)
 }
+
+// Agregar cantidad del producto n el carrito
 window.addProductAmountCart = function addProductAmountCart (idProduct) {
-    const products = cart.map(product => {
+    const products = getLocalStorageProducts().map(product => {
         if(product.id === idProduct){
             product.cantidad +=1;
             return product
@@ -139,8 +145,10 @@ window.addProductAmountCart = function addProductAmountCart (idProduct) {
     storageRefresh(products);
 }
 
+// Disminuir cantidad de producto del carrito
+// en caso sea 0 el producto se elimina
 window.removeProductAmountCart = function removeProductAmountCart (idProduct) {
-    const products = cart.map(product => {
+    const products = getLocalStorageProducts().map(product => {
         if(product.id === idProduct){
             product.cantidad -=1;
             return product
@@ -151,13 +159,14 @@ window.removeProductAmountCart = function removeProductAmountCart (idProduct) {
     storageRefresh(products)
 }
 
-// Eliminar producto del carrito
-function removeProductCart (id) {
-    return  cart.filter(cart => cart.id !== id);
-}
-
+// Refrescar localstorage
 const storageRefresh = (products) => {
     localStorage.removeItem('cart')
     loadCartHtml(products)
     localStorage.setItem('cart', JSON.stringify(products))
+}
+
+// Retornar productos del localstorage
+const getLocalStorageProducts = () => {
+    return JSON.parse(localStorage.getItem('cart'));
 }
