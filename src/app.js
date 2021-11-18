@@ -6,3 +6,4 @@ import './templates/products.html';
 import './templates/contact.html'
 
 import './js/index';
+import './js/jquery'

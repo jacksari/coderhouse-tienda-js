@@ -89,7 +89,7 @@ const searchUrl = () => {
         // Caso contrario hará un buscado por el id del producto que es un parámetro
         const idProduct = window.location.href.split('product=')[window.location.href.split.length - 1]
         const product = getProductById(idProduct);
-        console.log(product)
+        //console.log(product)
     }
 }
 

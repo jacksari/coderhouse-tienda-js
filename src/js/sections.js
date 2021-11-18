@@ -119,7 +119,7 @@ export const loadCartHtml = (products) => {
     let totalPrice = 0;
     let totalUnits = 0;
     products.forEach(product => {
-        console.log(product)
+        //console.log(product)
         totalPrice += product.fields.price * product.cantidad;
         totalUnits += product.cantidad;
         cartHtml += `
