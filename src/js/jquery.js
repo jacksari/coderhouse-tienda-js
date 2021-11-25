@@ -85,6 +85,7 @@ $("#form-contact-index").prepend(`
                         </div>
                     </form>
 `);
+
 //Asociamos el evento change a todos los inputs
 $(".form-control").change(function (e) {
     console.log(e.target.value);

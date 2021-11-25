@@ -1,16 +1,17 @@
-import {cart, products} from "./store";
+import {cart, products, getProductByIdApi} from "./store";
 import {loadCartHtml, loadSections} from "./sections";
 
 // Obtener productos
-const getProducts = (feat) => {
-    console.log('cargar productos', products)
+const getProducts = async (feat) => {
+    let productos = await products();
     // Validar featured (true para productos del home)
     // sin valor para los productos totales
+
     if (feat) {
-        const arrayProducts = products.filter(product => product.fields.featured === true);
+        const arrayProducts = productos.filter(product => product.fields.featured === true);
         renderProducts(arrayProducts);
     } else {
-        renderProducts(products);
+        renderProducts(productos);
     }
 }
 
@@ -59,13 +60,8 @@ const getProductHtml = product => {
         `;
 }
 
-// Obtener producto por id
-const getProductById = (id) => {
-    return products.find(product => product.id === id);
-}
-
 // primera carga
-window.addEventListener("load", function(event) {
+window.addEventListener("load",  function(event) {
     console.log("'Todos los recursos terminaron de cargar!");
     // Cargar secciones
     loadSections();
@@ -76,7 +72,7 @@ window.addEventListener("load", function(event) {
 });
 
 // Buscar url y dependiendo de eso elegir la funcionalidad
-const searchUrl = () => {
+const searchUrl = async () => {
     const url = window.location.href.split('/')
     const path = url[window.location.href.split('/').length - 1];
 
@@ -88,8 +84,10 @@ const searchUrl = () => {
     } else {
         // Caso contrario hará un buscado por el id del producto que es un parámetro
         const idProduct = window.location.href.split('product=')[window.location.href.split.length - 1]
-        const product = getProductById(idProduct);
-        //console.log(product)
+        // Cargar producto por id desde la API
+        const product = await getProductByIdApi(idProduct);
+
+        console.log(product)
     }
 }
 
@@ -122,7 +120,7 @@ window.addProductCart = function addProductCart (idProduct) {
           return product;
       }
     });
-    console.log('array', productsCart)
+    //console.log('array', productsCart)
     if(!existe){
         const product = getProductById(idProduct);
         product.cantidad = 1;

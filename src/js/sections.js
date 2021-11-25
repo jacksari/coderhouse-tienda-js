@@ -1,6 +1,8 @@
 // Cargar secciones
 import {cart, links} from "./store";
 
+
+
 export const loadSections = () => {
     // Cargar Nav
     getNav();
