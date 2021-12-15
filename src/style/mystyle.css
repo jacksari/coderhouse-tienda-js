@@ -257,7 +257,7 @@ PRODUCTS
 ===============
 */
 .products{
-    padding-top:8.75rem;
+    padding: 3rem 0 !important;
 }
 .headline h2::before{
     content:'';
@@ -578,4 +578,9 @@ li{
 
 .text-300{
     font-weight: 400 !important;
+}
+
+.container-navbar{
+    height: 86px;
+    background: red;
 }

@@ -37,31 +37,34 @@ const getNav = () => {
     })
     nav.innerHTML = `
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="https://dojiw2m9tvv09.cloudfront.net/66454/1/1685aa5ec87a9b85d05ab5d870dc463a5e61fa69.png?1634711553716"
-                     alt="Logo"
-                     class="logo"
-                >
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
-                    ${htmlLinks}
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        <i class="fas fa-cart-plus"></i>
-                    </a>
-                    <ul class="dropdown-menu" id="cart-products">
-            
-                    </ul>
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="https://dojiw2m9tvv09.cloudfront.net/66454/1/1685aa5ec87a9b85d05ab5d870dc463a5e61fa69.png?1634711553716"
+                         alt="Logo"
+                         class="logo"
+                    >
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ms-auto">
+                        ${htmlLinks}
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <i class="fas fa-cart-plus"></i>
+                        </a>
+                        <ul class="dropdown-menu" id="cart-products">
+                
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </nav>
+        <div class="container-navbar">
+        
         </div>
-    </nav>
     `;
 }
 
@@ -120,6 +123,7 @@ export const loadCartHtml = (products) => {
     let cartHtml = '';
     let totalPrice = 0;
     let totalUnits = 0;
+    console.log('PRO', products)
     products.forEach(product => {
         //console.log(product)
         totalPrice += product.fields.price * product.cantidad;

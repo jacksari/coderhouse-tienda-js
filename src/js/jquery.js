@@ -63,17 +63,17 @@ $("#form-contact-index").prepend(`
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your name">
+                                    <input required type="text" class="form-control" name="name" id="name" placeholder="Your name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email address">
+                                    <input required type="email" class="form-control" name="email" id="email" placeholder="Email address">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <input class="textarea" name="message" cols="30" rows="4" id="message" placeholder="Enter your message">
+                                    <input required class="textarea" name="message" cols="30" rows="4" id="message" placeholder="Enter your message">
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -88,16 +88,44 @@ $("#form-contact-index").prepend(`
 
 //Asociamos el evento change a todos los inputs
 $(".form-control").change(function (e) {
-    console.log(e.target.value);
-    console.log(this.value);
+    //console.log(e.target.value);
+    //console.log(this.value);
 });
 
-// Enviar formulario
+// Enviar formulario con jquery
 $("#form-contact").submit(function (e) {
     //Prevenimos el comportamiento de submit
     e.preventDefault();
     //Obtenemos hijos del formulario
-    console.log($(e.target).children().children()[0])
+    const $name = document.querySelector('#name')
+    const $email = document.querySelector('#email')
+    const $message = document.querySelector('#message')
+    const mensaje = {
+        name: $name.value,
+        email: $email.value,
+        message: $message.value
+    }
+    console.log('Mensaje enviado', mensaje);
+    //Enviar petición POSt al backend
+    //fetch('/', {
+    //    method: 'POST',
+    //    body: mensaje,
+    //})
+    // Limpiar datos una vez ya se envió los datos y todo fue satisfactorio
+    $name.value = '';
+    $email.value = '';
+    $message.value = '';
 });
 
+
+
+$( "#logo" ).click(function() {
+    $( "#logo" ).animate({
+        width: "70%",
+        opacity: 0.4,
+        marginLeft: "0.6in",
+        fontSize: "3em",
+        borderWidth: "10px"
+    }, 1500 );
+});
 
