@@ -168,13 +168,14 @@ window.addProductCart = async function addProductCart(idProduct) {
             return product;
         }
     });
-    console.log('array', productsCart)
+    //console.log('array', productsCart)
     if (!existe) {
         const product = await getProductByIdApi(idProduct);
+        console.log('GHGH', product)
         product.cantidad = 1;
         productsCart.push(await getProductByIdApi(idProduct))
     }
-    console.log('ui', productsCart)
+    //console.log('ui', productsCart)
     storageRefresh(productsCart)
 }
 
