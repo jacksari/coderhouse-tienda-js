@@ -1,8 +1,8 @@
-import {cart, products, getProductByIdApi} from "./store";
-import {loadCartHtml, loadSections} from "./sections";
+import { cart, products, getProductByIdApi } from "./store";
+import { loadCartHtml, loadSections } from "./sections";
 
 // Obtener productos
-const getProducts = async (feat) => {
+const getProducts = async(feat) => {
     let productos = await products();
     // Validar featured (true para productos del home)
     // sin valor para los productos totales
@@ -61,7 +61,7 @@ const getProductHtml = product => {
 }
 
 // primera carga
-window.addEventListener("load",  function(event) {
+window.addEventListener("load", function(event) {
     console.log("'Todos los recursos terminaron de cargar!");
     // Cargar secciones
     loadSections();
@@ -72,19 +72,19 @@ window.addEventListener("load",  function(event) {
 });
 
 // Buscar url y dependiendo de eso elegir la funcionalidad
-const searchUrl = async () => {
+const searchUrl = async() => {
     const url = window.location.href.split('/')
     const path = url[window.location.href.split('/').length - 1];
 
-    if(path === '' || path === 'index.html'){
+    if (path === '' || path === 'index.html') {
         // En el caso estemos en la url principal llamará a los productos
         await getProducts(true);
-    } else if(path === 'products.html'){
+    } else if (path === 'products.html') {
         await getProducts(false)
     } else {
         // Caso contrario hará un buscado por el id del producto que es un parámetro
         const idProduct = window.location.href.split('product=')[window.location.href.split.length - 1]
-        // Cargar producto por id desde la API
+            // Cargar producto por id desde la API
         const product = await getProductByIdApi(idProduct);
         renderProductDetails(product)
 
@@ -171,19 +171,19 @@ window.addProductCart = async function addProductCart(idProduct) {
     //console.log('array', productsCart)
     if (!existe) {
         const product = await getProductByIdApi(idProduct);
-        console.log('GHGH', product)
+        //console.log('GHGH', product)
         product.cantidad = 1;
-        productsCart.push(await getProductByIdApi(idProduct))
+        productsCart.push(product)
     }
     //console.log('ui', productsCart)
     storageRefresh(productsCart)
 }
 
 // Agregar cantidad del producto n el carrito
-window.addProductAmountCart = function addProductAmountCart (idProduct) {
+window.addProductAmountCart = function addProductAmountCart(idProduct) {
     const products = getLocalStorageProducts().map(product => {
-        if(product.id === idProduct){
-            product.cantidad +=1;
+        if (product.id === idProduct) {
+            product.cantidad += 1;
             return product
         } else {
             return product
@@ -194,10 +194,10 @@ window.addProductAmountCart = function addProductAmountCart (idProduct) {
 
 // Disminuir cantidad de producto del carrito
 // en caso sea 0 el producto se elimina
-window.removeProductAmountCart = function removeProductAmountCart (idProduct) {
+window.removeProductAmountCart = function removeProductAmountCart(idProduct) {
     const products = getLocalStorageProducts().map(product => {
-        if(product.id === idProduct){
-            product.cantidad -=1;
+        if (product.id === idProduct) {
+            product.cantidad -= 1;
             return product
         } else {
             return product
